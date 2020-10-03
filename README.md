@@ -1,7 +1,7 @@
 # SObj-scheme
 SObj for the Scheme Programming Language
 
-The `Java` and the `JavaScript` version is also here:
+The `Java` and the `JavaScript` version are also here:
 
 Java: http://github.com/AiziChen/SObj-java.git
 
