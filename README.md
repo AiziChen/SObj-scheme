@@ -8,7 +8,7 @@ Java: http://github.com/AiziChen/SObj-java.git
 JavaScript: http://github.com/AiziChen/SObj-typescript.git
 
 ## Usage
-You can see examples below and the `SObj-test.scm` file
+You can see examples below or the `SObj-test.scm` test file:
 
 ```scheme
 ;; load `SObj.scm` library
