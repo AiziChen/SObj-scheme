@@ -1,17 +1,20 @@
-;;; Sobj for scheme
+;;; SObj for scheme
 (define SOBJ-TAG '*obj)
 (define LIST-TAG '*list)
 
 (define first car)
 (define second cadr)
+(define apair?
+  (lambda (lat)
+    (and (pair? lat) (<= 2 (length lat)))))
 
 (define *list?
   (lambda (sobj)
-    (and (pair? sobj) (eq? LIST-TAG (first sobj)))))
+    (and (apair? sobj) (eq? LIST-TAG (first sobj)))))
 
 (define *sobj?
   (lambda (sobj)
-    (and (pair? sobj) (eq? SOBJ-TAG (first sobj)))))
+    (and (apair? sobj) (eq? SOBJ-TAG (first sobj)))))
 
 ;;; sfind - find an key from SObj
 (define sfind
@@ -19,12 +22,11 @@
     (cond
      [(null? sobj) '()]
      [else
-      (let ([left (first sobj)])
+      (let* ([fp (first sobj)]
+	     [v (second fp)])
 	(cond
-	 [(eq? (first left) k)
-	  (if (*list? (second left))
-	      (cdr (second left))
-	      (second left))]
+	 [(eq? (first fp) k)
+	  (if (*list? v) (cdr v) v)]
 	 [else
 	  (sfind (cdr sobj) k)]))])))
 
