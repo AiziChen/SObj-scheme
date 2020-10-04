@@ -1,14 +1,9 @@
 ;;; Sobj for scheme
-(define SOBJ-TAG '*sobj)
+(define SOBJ-TAG '*obj)
 (define LIST-TAG '*list)
 
-(define first
-  (lambda (lat)
-    (car lat)))
-
-(define second
-  (lambda (lat)
-    (cadr lat)))
+(define first car)
+(define second cadr)
 
 (define *list?
   (lambda (sobj)
@@ -18,20 +13,30 @@
   (lambda (sobj)
     (and (pair? sobj) (eq? SOBJ-TAG (first sobj)))))
 
+;;; sfind - find an key from SObj
+(define sfind
+  (lambda (sobj k)
+    (cond
+     [(null? sobj) '()]
+     [else
+      (let ([left (first sobj)])
+	(cond
+	 [(eq? (first left) k)
+	  (if (*list? (second left))
+	      (cdr (second left))
+	      (second left))]
+	 [else
+	  (sfind (cdr sobj) k)]))])))
+
 ;;; sobj-ref
 (define sobj-ref
-  (lambda (sobj a)
-    (sfind (cdr sobj) a)))
-
-(define sfind
   (lambda (lat a)
     (cond
-     [(null? lat) '()]
-     [(eq? (first (first lat)) a)
-      (if (*list? (second (first lat)))
-	  (cdr (second (first lat)))
-	  (second (first lat)))]
+     [(or (*sobj? lat) (*list? lat))
+      (sfind (cdr lat) a)]
      [else
-      (sfind (cdr lat) a)])))
+      (error 'sobj-ref "Invalid SObj syntax")])))
+
+
 
 

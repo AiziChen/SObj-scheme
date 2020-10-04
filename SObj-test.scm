@@ -7,9 +7,9 @@
     (name "DavidChen")
     (age 25)
     (birth "2019-01-16 01:08,30")
-    (glasses ((id 1)
-	      (degree 203.3)
-	      (color "RED-BLACK")))
+    (glasses (*obj (id 1)
+		   (degree 203.3)
+		   (color "RED-BLACK")))
     (height 167.3)
     (goods (*list
 	    (*obj (name "火龙果") (price 2.3))
