@@ -44,8 +44,8 @@ You can see examples below or the `SObj-test.scm` test file:
 (sobj-ref u1 'goods)
 (sobj-ref su1 'goods)
 ;; * Get goods list first element
-(car (sobj-ref u1 'goods))
-(car (sobj-ref su1 'goods))
+(sobj-ref (sobj-ref u1 'goods) 0)
+(sobj-ref (sobj-ref su1 'goods) 0)
 ;; * Get behaviors list
 (sobj-ref u1 'behaviors)
 (sobj-ref su1 'behaviors)
