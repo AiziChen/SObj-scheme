@@ -16,6 +16,11 @@
   (lambda (sobj)
     (and (apair? sobj) (eq? SOBJ-TAG (first sobj)))))
 
+(define read-from-string
+  (lambda (s)
+    (with-input-from-string s
+      (lambda () (read)))))
+
 ;;; sfind - find an key from SObj
 (define sfind
   (lambda (sobj k)
@@ -34,11 +39,10 @@
 (define sobj-ref
   (lambda (lat a)
     (cond
+     [(string? lat)
+      (sobj-ref (read-from-string lat) a)]
      [(or (*sobj? lat) (*list? lat))
       (sfind (cdr lat) a)]
      [else
       (error 'sobj-ref "Invalid SObj syntax")])))
-
-
-
 

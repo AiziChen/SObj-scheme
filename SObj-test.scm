@@ -16,14 +16,23 @@
 	    (*obj (name "雪梨") (price 3.2))))
     (behaviors (*list "Shopping""Running""Football"))))
 
+(define su1
+  (with-output-to-string
+    (lambda () (write u1))))
+
 ;;; START TESTS
 ;; * Get name
 (sobj-ref u1 'name)
+(sobj-ref su1 'name)
 ;; * Get glasses sobj
 (sobj-ref u1 'glasses)
+(sobj-ref su1 'glasses)
 ;; * Get goods list
 (sobj-ref u1 'goods)
+(sobj-ref su1 'goods)
 ;; * Get goods list first element
 (car (sobj-ref u1 'goods))
+(car (sobj-ref su1 'goods))
 ;; * Get behaviors list
 (sobj-ref u1 'behaviors)
+(sobj-ref su1 'behaviors)
