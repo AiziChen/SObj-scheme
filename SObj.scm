@@ -30,8 +30,7 @@
       (let* ([fp (first sobj)]
 	     [v (second fp)])
 	(cond
-	 [(eq? (first fp) k)
-	  (if (*list? v) (cdr v) v)]
+	 [(eq? (first fp) k) v]
 	 [else
 	  (sfind (cdr sobj) k)]))])))
 
@@ -41,8 +40,10 @@
     (cond
      [(string? lat)
       (sobj-ref (read-from-string lat) a)]
-     [(or (*sobj? lat) (*list? lat))
+     [(*sobj? lat)
       (sfind (cdr lat) a)]
+     [(*list? lat)
+      (list-ref (cdr lat) a)]
      [else
       (error 'sobj-ref "Invalid SObj syntax")])))
 
