@@ -30,7 +30,7 @@
      [(char? e) (string e)]
      [(boolean? e)
       (if e "true" "false")]
-     [else e])))
+     [else "null"])))
 
 
 ;;; sfind - find an key from SObj
