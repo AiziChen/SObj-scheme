@@ -38,3 +38,5 @@
 ;; * Get behaviors list
 (sobj-ref u1 'behaviors)
 (sobj-ref su1 'behaviors)
+;; SObj to JSON
+(sobj->JSON u1)
