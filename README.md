@@ -49,4 +49,6 @@ You can see examples below or the `SObj-test.scm` test file:
 ;; * Get behaviors list
 (sobj-ref u1 'behaviors)
 (sobj-ref su1 'behaviors)
+;; SObj to JSON
+(sobj->JSON u1)
 ```
