@@ -21,6 +21,18 @@
     (with-input-from-string s
       (lambda () (read)))))
 
+(define ->value
+  (lambda (e)
+    (cond
+     [(string? e) (string-append "\"" e "\"")]
+     [(symbol? e) (symbol->string e)]
+     [(number? e) (number->string e)]
+     [(char? e) (string e)]
+     [(boolean? e)
+      (if e "true" "false")]
+     [else e])))
+
+
 ;;; sfind - find an key from SObj
 (define sfind
   (lambda (sobj k)
@@ -47,3 +59,56 @@
      [else
       (error 'sobj-ref "Invalid SObj syntax")])))
 
+
+(define sobj->JSON-list
+  (lambda (lat)
+    (cond
+     [(null? lat) "]"]
+     [(or (*sobj? (first lat))
+	  (*list? (first lat)))
+      (string-append
+       (sobj->JSON (first lat))
+       (if (null? (cdr lat))
+	   "]"
+	   (string-append
+	    ","
+	    (sobj->JSON-list (cdr lat)))))]
+     [else
+      (string-append
+       (->value (first lat))
+       (if (null? (cdr lat))
+	   "]"
+	   (string-append
+	    ","
+	    (sobj->JSON-list (cdr lat)))))])))
+
+;;; sobj->JSON
+(define sobj->JSON
+  (lambda (lat)
+    (cond
+     [(null? lat) "}"]
+     [(*sobj? lat)
+      (string-append
+       "{"
+       (sobj->JSON (cdr lat)))]
+     [(*list? lat)
+      (string-append
+       "["
+       (sobj->JSON-list (cdr lat)))]
+     [(pair? lat)
+      (cond
+       [(pair? (first lat))
+	(string-append
+	 (sobj->JSON (first lat))
+	 (if (null? (cdr lat))
+	     "}"
+	     (string-append
+	      ","
+	      (sobj->JSON (cdr lat)))))]
+       [else
+	(string-append
+	 "\""
+	 (sobj->JSON (first lat))
+	 "\":"
+	 (sobj->JSON (second lat)))])]
+     [else (->value lat)])))
