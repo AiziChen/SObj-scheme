@@ -4,7 +4,7 @@
 (define u1
   '(*obj
     (id 1)
-    ;; symbol is allowed, and when convert SObj to string,
+    ;; symbol is allowed, and when convert SObj to JSON,
     ;; all symbol values will be convert to string
     (name DavidChen)
     (age 25)
