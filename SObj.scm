@@ -29,15 +29,16 @@
     (with-input-from-string s
       (lambda () (read)))))
 
-(define ->value
+(define ->JSON-value
   (lambda (e)
     (cond
      [(string? e) (string-append "\"" e "\"")]
-     [(symbol? e) (symbol->string e)]
+     [(symbol? e) (->JSON-value (symbol->string e))]
      [(number? e) (number->string e)]
      [(char? e) (string e)]
      [(boolean? e) (if e "true" "false")]
-     [else "null"])))
+     [(null? e) "null"]
+     [else (error '->JSON-value (format "~a do not convert to string" e))])))
 
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -151,25 +152,29 @@
 		     (if (null? (cdr lat)) "]"
 	   (string-append "," (sobj->JSON-list (cdr lat)))))]
      [else
-      (string-append (->value (first lat))
+      (string-append (->JSON-value (first lat))
        (if (null? (cdr lat)) "]"
 	   (string-append "," (sobj->JSON-list (cdr lat)))))])))
 ;;; sobj->JSON
 (define sobj->JSON
   (lambda (lat)
     (cond
-     [(null? lat) "}"]
-     [(*sobj? lat)
-      (string-append "{" (sobj->JSON (cdr lat)))]
-     [(*list? lat)
-      (string-append "[" (sobj->JSON-list (cdr lat)))]
-     [(pair? lat)
-      (cond
-       [(pair? (first lat))
-	(string-append (sobj->JSON (first lat))
-	 (if (null? (cdr lat)) "}"
-	     (string-append "," (sobj->JSON (cdr lat)))))]
-       [else
-	(string-append "\"" (sobj->JSON (first lat))
-		       "\":" (sobj->JSON (second lat)))])]
-     [else (->value lat)])))
+     [(null? lat) "{}"]
+     [(or (*sobj? lat) (*list? lat))
+      (let loop ([lat lat])
+	(cond
+	 ;[(null? lat) "}"]
+	 [(*sobj? lat)
+	  (string-append "{" (loop (cdr lat)))]
+	 [(*list? lat)
+	  (string-append "[" (sobj->JSON-list (cdr lat)))]
+	 [else
+	  (let* ([fp (first lat)]
+		 [k (first fp)]
+		 [v (second fp)])
+	    (if (null? (cdr lat))
+		(string-append (->JSON-value k) ":" (sobj->JSON v) "}")
+		(string-append (->JSON-value k) ":" (sobj->JSON v) ","
+			       (loop (cdr lat)))))]))]
+     [(atom? lat) (->JSON-value lat)]
+     [else (error 'sobj-ref "Invalid SObj syntax")])))

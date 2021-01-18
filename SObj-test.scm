@@ -4,7 +4,9 @@
 (define u1
   '(*obj
     (id 1)
-    (name "DavidChen")
+    ;; symbol is allowed, and when convert SObj to string,
+    ;; all symbol values will be convert to string
+    (name DavidChen)
     (age 25)
     (birth "2019-01-16 01:08,30")
     (glasses (*obj
