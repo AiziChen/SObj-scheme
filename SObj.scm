@@ -26,8 +26,7 @@
 
 (define read-from-string
   (lambda (s)
-    (with-input-from-string s
-      (lambda () (read)))))
+    (with-input-from-string s read)))
 
 (define ->JSON-value
   (lambda (e)
