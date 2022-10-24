@@ -2,7 +2,7 @@
  ; SObj for scheme ;
  ; @author Quanyec ;
 ;;;;;;;;;;;;;;;;;;;;;
-;;; tags ;;;
+;;; SObj object and list tags ;;;
 (define SOBJ-TAG '*obj)
 (define LIST-TAG '*list)
 
@@ -41,7 +41,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;
-;;; SObj THINGS
+;;; SObj Actions
 ;;;;;;;;;;;;;;;;;;;;;
 ;;; sfind - find an key from SObj
 (define sfind
